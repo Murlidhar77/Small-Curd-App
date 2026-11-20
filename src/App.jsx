@@ -4,6 +4,7 @@ import Card from "./assets/components/Card";
 import GetForm from "./assets/components/GetForm";
 import { useState } from "react";
 const App = () => {
+  const [update, setupdate] = useState(null)
   const [toogle, settoogle] = useState(false);
   const [data, setdata] = useState(() => {
     return JSON.parse(localStorage.getItem("user")) || [];
@@ -17,17 +18,23 @@ const App = () => {
       return newarr;
     });
   }
+
+  function Updatecard() {
+    setupdate(data)
+    settoogle((prev)=>!prev)
+  }
   return (
     <>
       <Navbar settoogle={settoogle}></Navbar>
       {toogle ? (
         <div className="form">
-          <GetForm settoogle={settoogle} setdata={setdata} data={data} />
+          <GetForm update={update} settoogle={settoogle} setdata={setdata} data={data} />
         </div>
       ) : (
         <div className="Cards flex  items-center m-4 gap-10">
           {data.map((element) => (
             <Card
+            Updatecard={Updatecard}
               Deletecard={() => Deletecard(element.id)}
               key={element.id}
               element={element}

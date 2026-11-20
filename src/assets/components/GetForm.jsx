@@ -1,12 +1,15 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-const GetForm = ({ setdata, settoogle, data }) => {
+const GetForm = ({ setdata, settoogle, data, update }) => {
   const {
     register,
     reset,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    mode:"onchange",
+    default:update
+  });
 
   function Getdata(formdata) {
     let dataobj = {

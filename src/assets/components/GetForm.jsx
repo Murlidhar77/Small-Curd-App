@@ -1,6 +1,6 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-const GetForm = ({ setdata ,settoogle }) => {
+const GetForm = ({ setdata, settoogle, data }) => {
   const {
     register,
     reset,
@@ -8,16 +8,18 @@ const GetForm = ({ setdata ,settoogle }) => {
     formState: { errors },
   } = useForm();
 
-  function Getdata(data) {
+  function Getdata(formdata) {
     let dataobj = {
       id: crypto.randomUUID(),
-      name: data.name,
-      email: data.email,
-      phone: data.phone,
-      image: data.image,
+      name: formdata.name,
+      email: formdata.email,
+      phone: formdata.phone,
+      image: formdata.image,
     };
-    setdata((prev) => [...prev, dataobj]);
-    settoogle((prev)=>!prev)
+    let newarr = [...data, dataobj];
+    setdata(newarr);
+    localStorage.setItem("user",JSON.stringify(newarr))
+    settoogle((prev) => !prev);
     reset();
   }
   return (
@@ -37,11 +39,13 @@ const GetForm = ({ setdata ,settoogle }) => {
           <label className="text-sm font-semibold text-white">Enter Name</label>
           <input
             type="text"
-            {...register("name",{required:"Name is required"})}
+            {...register("name", { required: "Name is required" })}
             placeholder="Enter your name"
             className="w-full px-4 py-3 rounded-xl border border-slate-300 outline-none text-white focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 transition"
           />
-          {errors.name &&  <p className="text-red-500 font-semibold">Please fill name</p>}
+          {errors.name && (
+            <p className="text-red-500 font-semibold">Please fill name</p>
+          )}
         </div>
 
         <div className="flex flex-col gap-2">
@@ -51,10 +55,12 @@ const GetForm = ({ setdata ,settoogle }) => {
           <input
             type="email"
             placeholder="Enter your email"
-            {...register("email",{required:"email is required"})}
+            {...register("email", { required: "email is required" })}
             className="w-full px-4 py-3 rounded-xl border text-white border-slate-300 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 transition"
           />
-           {errors.email &&  <p className="text-red-500 font-semibold">Please fill email</p>}
+          {errors.email && (
+            <p className="text-red-500 font-semibold">Please fill email</p>
+          )}
         </div>
 
         <div className="flex flex-col gap-2">
@@ -63,11 +69,13 @@ const GetForm = ({ setdata ,settoogle }) => {
           </label>
           <input
             type="tel"
-            {...register("phone",{required:"phone is required"})}
+            {...register("phone", { required: "phone is required" })}
             placeholder="Enter your phone"
             className="w-full px-4 py-3 rounded-xl border text-white border-slate-300 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 transition"
           />
-           {errors.phone &&  <p className="text-red-500 font-semibold">Please fill phone</p>}
+          {errors.phone && (
+            <p className="text-red-500 font-semibold">Please fill phone</p>
+          )}
         </div>
 
         <div className="flex flex-col gap-2">
@@ -76,11 +84,13 @@ const GetForm = ({ setdata ,settoogle }) => {
           </label>
           <input
             type="url"
-            {...register("image",{required:"image is required"})}
+            {...register("image", { required: "image is required" })}
             placeholder="Enter image URL"
             className="w-full px-4 py-3 rounded-xl text-white border border-slate-300 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 transition"
           />
-           {errors.image &&  <p className="text-red-500 font-semibold">Please fill image</p>}
+          {errors.image && (
+            <p className="text-red-500 font-semibold">Please fill image</p>
+          )}
         </div>
 
         <button

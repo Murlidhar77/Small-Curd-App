@@ -7,8 +7,13 @@ const GetForm = ({ setdata, settoogle, data, update }) => {
     handleSubmit,
     formState: { errors },
   } = useForm({
-    mode:"onchange",
-    default:update
+    mode: "onChange",
+    defaultValues: update || {
+      name: "",
+      email: "",
+      phone: "",
+      image: "",
+    },
   });
 
   function Getdata(formdata) {
@@ -19,9 +24,21 @@ const GetForm = ({ setdata, settoogle, data, update }) => {
       phone: formdata.phone,
       image: formdata.image,
     };
-    let newarr = [...data, dataobj];
-    setdata(newarr);
-    localStorage.setItem("user",JSON.stringify(newarr))
+
+    if (update) {
+      setdata((prev) => {
+        return prev.map((val) => {
+          return val.id === update.id ? { ...val, ...formdata } : val;
+        });
+      });
+      setdata(newarr);
+      localStorage.setItem("user", JSON.stringify(newarr));
+      
+    } else {
+      let newarr = [...data, dataobj];
+      setdata(newarr);
+      localStorage.setItem("user", JSON.stringify(newarr));
+    }
     settoogle((prev) => !prev);
     reset();
   }

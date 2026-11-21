@@ -19,16 +19,16 @@ const App = () => {
     });
   }
 
-  function Updatecard() {
-    setupdate(data)
-    settoogle((prev)=>!prev)
+  function Updatecard(updatedata) {
+    setupdate(updatedata)
+    settoogle(true)
   }
   return (
     <>
       <Navbar settoogle={settoogle}></Navbar>
       {toogle ? (
         <div className="form">
-          <GetForm update={update} settoogle={settoogle} setdata={setdata} data={data} />
+          <GetForm update={()=>update(updatedata)} settoogle={settoogle} setdata={setdata} data={data} />
         </div>
       ) : (
         <div className="Cards flex  items-center m-4 gap-10">
